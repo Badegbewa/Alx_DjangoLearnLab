@@ -1,8 +1,6 @@
 # retrieve.md
-books = Book.objects.all()
 
-for b in book:
-    print(b.title, b.author, b.publication_year)
+Book.objects.get()
 
-# output
-1984 Goerge Orwell 1949
+# Output
+Book: 1984 by Goerge Orwell (1949)
