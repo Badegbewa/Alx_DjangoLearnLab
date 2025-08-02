@@ -139,3 +139,32 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+
+# Force HTTPS redirect (http:// → https://)
+SECURE_SSL_REDIRECT = True
+
+# Tell browsers to always use HTTPS for 1 year (in seconds)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+# Include subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Let browsers preload your site into their HTTPS-only list
+SECURE_HSTS_PRELOAD = True
+
+# Session cookie must be sent over HTTPS only
+SESSION_COOKIE_SECURE = True
+
+# CSRF cookie (form security) must be sent over HTTPS only
+CSRF_COOKIE_SECURE = True
+
+
+# Block site from being embedded and prevents clickjacking
+X_FRAME_OPTIONS = "DENY"
+
+# Prevent browsers from guessing the content type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser XSS filter
+SECURE_BROWSER_XSS_FILTER = True
