@@ -12,3 +12,4 @@ Added CSP middleware to block risky scripts.
 -  Cookies secured with `SESSION_COOKIE_SECURE` and `CSRF_COOKIE_SECURE`
 -  Clickjacking prevented using `X_FRAME_OPTIONS = "DENY"`
 -  Browser XSS filter and content sniffing protections enabled
+-  SSL configured via Let's Encrypt and Nginx reverse proxy
