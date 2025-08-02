@@ -18,3 +18,25 @@ def edit_book(request, book_id):
 def book_list(request):
     books = Book.objects.all() 
     return render(request, 'bookshelf/book_list.html', {'books': books})
+
+
+Book.objects.filter(title__icontains=book_list)
+
+from django.shortcuts import render
+from .forms import ExampleForm
+
+def example_form_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process the data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            # Save or use the data securely here
+            return render(request, 'bookshelf/success.html')
+    else:
+        form = ExampleForm()
+    
+    return render(request, 'bookshelf/form_example.html', {'form': form})
+
