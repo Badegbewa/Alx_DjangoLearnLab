@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm, ProfileForm
 from django.contrib.auth.views import LogoutView
+from taggit.models import Tag
 
 def home(request):
     return render(request, 'blog/base.html')
@@ -162,3 +163,18 @@ def search_posts(request):
 def posts_by_tag(request, tag_name):
     posts = Post.objects.filter(tags__name__iexact=tag_name)
     return render(request, "blog/posts_by_tag.html", {"tag": tag_name, "posts": posts})
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"   # reuse your list template
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get("tag_slug")
+        self.tag = Tag.objects.get(slug=tag_slug)
+        return Post.objects.filter(tags__slug=tag_slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tag"] = self.tag
+        return context
