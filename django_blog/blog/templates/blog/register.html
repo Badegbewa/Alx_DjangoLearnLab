@@ -1,0 +1,11 @@
+{% extends "auth/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+  <h2>Create an account</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  {# username, email, password1, password2 #}
+    <button type="submit">Sign Up</button>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}

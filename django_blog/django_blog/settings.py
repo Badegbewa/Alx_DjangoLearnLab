@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 DATABASES =DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_blog_db',      
+        'NAME': 'blog_db',      
         'USER': 'blog_user',          
         'PASSWORD': '1759', 
         'HOST': 'localhost',
@@ -85,13 +85,6 @@ DATABASES =DATABASES = {
     }
 }
  
-{
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -126,6 +119,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+LOGIN_REDIRECT_URL = 'profile'       
+LOGOUT_REDIRECT_URL = 'login'
 
 STATIC_URL = 'static/'
 
