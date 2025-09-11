@@ -73,3 +73,4 @@ class UserListView(generics.GenericAPIView):
         users = self.get_queryset()
         serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
+    
