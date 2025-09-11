@@ -40,12 +40,13 @@ class FeedView(APIView):
     
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import generics
 
 class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = Post.objects.get(pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
             Notification.objects.create(
