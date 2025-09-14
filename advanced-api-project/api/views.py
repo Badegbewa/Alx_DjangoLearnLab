@@ -1,19 +1,22 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
 
-class BookListCreateView(generics.ListCreateAPIView):
+
+class BookListView(generics.ListAPIView):
     """
     GET /books/ → list all books
     POST /books/ → create a new book (only if logged in)
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.AllowAny]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ["author", "publication_year"]        # allow ?author=1
+    search_fields = ["title", "author__name"]                # allow ?search=foo
+    ordering_fields = ["publication_year", "title"]
 
-    def get_permissions(self):
-        if self.request.method == "POST":
-            return [permissions.IsAuthenticated()]
-        return [permissions.AllowAny()]
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -23,15 +26,24 @@ class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def get_permissions(self):
-        if self.request.method in ["PUT", "PATCH", "DELETE"]:
-            return [permissions.IsAuthenticated()]
-        return [permissions.AllowAny()]
-
-def get_queryset(self):
+class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
-    year = self.request.query_params.get("year")
-    if year:
-        queryset = queryset.filter(publication_year=year)
-    return queryset
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+class BookUpdateView(generics.UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class BookDeleteView(generics.DestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
